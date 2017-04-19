@@ -1,0 +1,376 @@
+/* 
+    Document   : css_tiket
+    Created on : 18 Sep 13, 11:17:24
+    Author     : artcak_studio
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body{
+    background: #135a97;
+    
+}
+
+root { 
+    display: block;
+}
+
+
+#shadow{
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.3); 
+}
+
+#head_top{
+   
+}
+
+#logo_menu{
+   
+}
+
+#head_top_left{
+   border-bottom: 1px solid #135a97; 
+   padding-bottom: 3px;
+}
+
+#head_top_left p{
+    margin: 0;
+    padding: 2px;
+    font-size: 11px;
+    
+}
+
+#head_top_right{
+    border-bottom: 1px solid #135a97;
+}
+
+#head_top_right ul{
+    margin: 0;
+    padding: 2px;
+}
+#head_top_right ul li{
+    list-style: none;
+    float: left;
+    margin-left: 4px;
+    margin-right: 3px;
+    font-size: 11px;
+    
+}
+
+#head_top_right ul li img{
+    height: 18px;
+}
+
+#logo-menu{
+    border-bottom: 3px solid #135a97;
+}
+
+.konten_tab{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 0;
+}
+
+#form_list{
+    margin-top: 2px;
+}
+
+
+#logo_layout img{
+    width: 300px;
+    margin-left: -10px;
+    margin-top: 5px;
+}
+
+#menu{
+    padding-bottom: 30px;   
+}
+
+#menu ul{
+    margin: 0;
+    padding: 0;
+    margin-left: 0px;
+    background: #333;
+}
+
+#menu ul li{
+    margin-top: 33px;
+    float: left;
+    margin-left: 20px;
+    margin-right: 20px;
+    list-style: none;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+}
+
+#menu ul li:hover{
+    color: #a10000;
+    border-bottom: 1px solid #a10000
+}
+
+
+.kiri{
+    width: 100%;
+    margin: 0;
+    padding: 7px;
+    
+}
+
+.border{
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.3); 
+    
+    background: url(../back-loop.png) repeat;
+    padding-bottom: 10px;
+}
+
+.kanan{
+    width: 100%;
+    margin: 0;
+    padding: 7px;
+}
+
+.tengah{
+    width: 100%;
+    margin: 0;
+    padding: 7px;
+}
+
+#tab_home_panel{
+    height: 350px
+}
+
+#sidebar_home_panel{
+   padding-bottom: 2px;
+}
+
+#slider_home_panel{
+    padding: 0;
+    margin: 0;
+    height: 350px;
+}
+
+.cek_reservasi_tap{
+    padding-bottom: 10px;
+}
+
+#tab_menu{
+    
+}
+
+#tab_menu dd{
+    border-bottom: solid 1px #135a97;
+}
+
+#tab_menu dd a{
+    border: none;
+    padding: 0;
+    text-align: center;
+}
+
+#kiri_tap{
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    border-top-left-radius: 5px;
+}
+
+#kanan_tap{
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-right-radius: 5px;
+    width: 103px;
+}
+
+#form_tap{
+    margin-top: 25px;
+}
+
+#form_tap select{
+    width: 100%;
+    background-color: white; font-family: inherit; border: 1px solid #cccccc; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px; border-radius: 2px; -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); color: rgba(0, 0, 0, 0.75); display: block; font-size: 14px; margin: 0 0 12px 0; padding: 6px; height: 32px; width: 100%; -webkit-transition: all 0.15s linear; -moz-transition: all 0.15s linear; -o-transition: all 0.15s linear; transition: all 0.15s linear;
+}
+
+#title_panel{
+    line-height: 40px;
+    height: 40px;
+    width: 100%;
+    padding-left: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: solid 1px #135a97;
+    color: #174b79;
+}
+
+#content_panel{
+    padding: 10px;
+}
+
+#but_tgl{
+    margin: 0;
+    padding: 15px;
+    padding-top: 9px;
+    
+    height: 32px;
+}
+
+#tabel_panel, #tabel_panel tr td{
+    padding: 0;
+    margin: 0;
+    background: none;
+    
+}
+
+#bantuan div{
+    margin-bottom: 5px;
+}
+
+.tabel{
+    padding: 0;
+    margin: 0;
+}
+
+.tabel table a:link {
+	color: #666;
+	font-weight: bold;
+	text-decoration:none;
+}
+.tabel table a:visited {
+	color: #999999;
+	font-weight:bold;
+	text-decoration:none;
+}
+.tabel table a:active,
+table a:hover {
+	color: #bd5a35;
+	text-decoration:underline;
+}
+.tabel table {
+	font-family:Arial, Helvetica, sans-serif;
+	color:#666;
+	font-size:12px;
+	text-shadow: 1px 1px 0px #fff;
+	background:#eaebec;
+	border:#ccc 1px solid;
+
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+
+	-moz-box-shadow: 0 1px 2px #d1d1d1;
+	-webkit-box-shadow: 0 1px 2px #d1d1d1;
+	box-shadow: 0 1px 2px #d1d1d1;
+}
+.tabel table th {
+	padding:21px 25px 22px 25px;
+	border-top:1px solid #fafafa;
+	border-bottom:1px solid #e0e0e0;
+
+	background: #ededed;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));
+	background: -moz-linear-gradient(top,  #ededed,  #ebebeb);
+}
+.tabel table th:first-child{
+	text-align: left;
+	padding-left:20px;
+}
+.tabel table tr:first-child th:first-child{
+	-moz-border-radius-topleft:3px;
+	-webkit-border-top-left-radius:3px;
+	border-top-left-radius:3px;
+}
+.tabel table tr:first-child th:last-child{
+	-moz-border-radius-topright:3px;
+	-webkit-border-top-right-radius:3px;
+	border-top-right-radius:3px;
+}
+.tabel table tr{
+	text-align: center;
+	padding-left:20px;
+}
+.tabel table tr td:first-child{
+	text-align: left;
+	padding-left:20px;
+	border-left: 0;
+}
+.tabel table tr td {
+	padding:10px;
+	border-top: 1px solid #ffffff;
+	border-bottom:1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+	
+}
+
+.tabel table tr td img{
+    border: 1px solid #eee;
+}
+
+.tabel table tr.even td{
+}
+.tabel table tr:last-child td{
+	border-bottom:0;
+}
+.tabel table tr:last-child td:first-child{
+	-moz-border-radius-bottomleft:3px;
+	-webkit-border-bottom-left-radius:3px;
+	border-bottom-left-radius:3px;
+}
+.tabel table tr:last-child td:last-child{
+	-moz-border-radius-bottomright:3px;
+	-webkit-border-bottom-right-radius:3px;
+	border-bottom-right-radius:3px;
+}
+.tabel table tr:hover td{
+	background: #f2f2f2;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
+	background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);	
+}
+
+#imgtable{
+    padding: 3px;
+    width: 400px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#td_maskapai{
+    width: 940px;
+}
+
+#td_maskapai img{
+    width: 65px;
+    border: 1px solid #dddddd;
+}
+
+#header_maskapai img{
+    border: 1px solid #dddddd;
+}
+
+#header_maskapai{
+    color: #083865;
+    text-align: left;
+    width: 940px;
+    padding: 10px;
+    font-size: 20px;
+}
+
+#header_result{
+    text-align: center;
+    padding: 10px;color: #083865;
+    
+}
+
+#tabel_result table tr td{
+    text-align: center;
+}
+
+#kotak_d{
+    background: #ddd; 
+    color: #083865;
+    line-height: 40px;
+}
+
+#panel_biru h1,#panel_biru h2,#panel_biru h3,#panel_biru h4,#panel_biru h5{
+    text-align: center;
+    color: #fff;
+}

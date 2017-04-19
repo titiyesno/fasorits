@@ -1,0 +1,43 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 02-Jul-2014, 09:30:38
+    Author     : M
+*/
+
+.carousel {
+height: 100%;
+}
+
+.oxigenfont{
+    font-family: 'Oxygen', sans-serif;
+    color: #fff;
+    line-height: 90%;
+}
+.oxigen{
+    font-family: 'Oxygen', sans-serif;
+    line-height: 100%;
+}
+.oxigenfontblue{
+    font-family: 'Oxygen', sans-serif;
+    color: #00aedb;
+    line-height: 90%;
+}
+.oxigenfontred{
+    font-family: 'Oxygen', sans-serif;
+    color: red;
+    line-height: 90%;
+}
+.fiximg {
+    position:absolute;
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
+    margin: auto; 
+    min-height: 100%;
+    min-width: 100%;
+}

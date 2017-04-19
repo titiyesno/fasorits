@@ -1,0 +1,172 @@
+.metamorphusfont { 
+    font-family: 'Metamorphous', cursive;
+    color: #242424;  
+}
+.alenfont{
+    font-family: 'Alef', sans-serif;
+}
+
+.oxigenfont{
+    font-family: 'Oxygen', sans-serif;
+    color: #fff;
+    line-height: 90%;
+}
+.oxigen{
+    font-family: 'Oxygen', sans-serif;
+    line-height: 100%;
+}
+.oxigenfontblue{
+    font-family: 'Oxygen', sans-serif;
+    color: #00aedb;
+    line-height: 90%;
+}
+.oxigenfontorangedark{
+    font-family: 'Oxygen', sans-serif;
+    color: #e3a000;
+    line-height: 90%;
+}
+.oxigenfontred{
+    font-family: 'Oxygen', sans-serif;
+    color: red;
+    line-height: 90%;
+}
+.advenprofiont{
+    font-family: 'Advent Pro', sans-serif;
+}
+.spaceheade{
+    color: #fff;
+    margin-top: 70px;
+    line-height: 0%;
+    margin-bottom: 40px;
+}
+
+.styleradiusdiv{
+    border-radius: 150px 150px 150px 150px;
+    -moz-border-radius: 150px 150px 150px 150px;
+    -webkit-border-radius: 19px 19px 19px 19px;
+    border: 1px solid #fff;
+    background-color: #00ffff;
+    padding: 10px 30px 20px 20px;
+    margin: 10px 30px 20px 20px;
+    height: 200px;
+}
+/* end media query */
+.blue{
+    background:#00aedb;
+}
+.orange{
+    background: #f08a24;
+}
+.red{
+    background: #EC2525;
+}
+.grey{
+    background: #888888;
+}
+.top-bar{
+    background: #f08a24;
+    height:45px;
+}
+.top-bar-section li:not(.has-form) a:not(.button) {
+    background: #f08a24;
+}
+
+.top-bar-section li a:not(.button) {
+    background:#00aedb;
+    font-size: larger;
+    line-height: 60px;
+    font-family: 'Oxygen', sans-serif;
+    color: white;
+}
+.top-bar.expanded .title-area {
+    background: #00aedb; }
+.top-bar .name {
+    height: 45px;
+    margin: 0;
+    font-size: 16px; }
+.menu_header{
+    font-size: xx-large;
+    line-height: 40px;
+    font-family: 'Oxygen', sans-serif;
+    color: white;
+}
+.contain-to-grid{
+    background: #f08a24;
+}
+.top-bar-section li a:not(.button):hover {
+    background:#00aec1;
+    color: white;
+}
+top-bar-section .has-dropdown li a:not(.button):hover{
+    background:#049ac1;
+    color: white;
+}
+.shadowborder{
+    background-color: white; box-shadow: 0px 0px 2px #888888; padding-bottom: 30px; padding-top: 20px;
+}
+.button{
+    border: 0px;
+    moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+}
+
+.button-small{
+    border: 0px;
+}
+.zeromargin{
+    border: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+/*share bar*/
+.social-sidebar {
+top: 17%;
+position: fixed;
+margin-bottom: 100px;
+width: 50px;
+font-family: arial;
+text-align: center;
+font-size: 11px;
+color: rgb(51, 51, 51);
+margin-left: -57px;
+}
+
+.sidebar-button-container-outside {
+box-shadow: 0px 0px 2px #888888;
+//border: 1px solid #999;
+width: 40px;
+padding: 1px;
+margin: 5px 0px;
+}
+
+.sidebar-button-container-inside {
+width: 40px;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 2px;
+}
+
+.sharelogo{
+    margin-top: 1px;
+    width: 32px;
+    height: 32px;
+}
+
+button:hover, button:focus, .button:hover, .button:focus{
+    background: #333333;
+}
+
+.blueborder-whitebackground{
+    background-color:white; 
+    border-color: #008cba;
+}
+
+.radius-pict{
+    border-radius: 20px;
+    -webkit-box-shadow: 6px 6px 10px -1px rgba(0,0,0,0.75);
+-moz-box-shadow: 6px 6px 10px -1px rgba(0,0,0,0.75);
+box-shadow: 6px 6px 10px -1px rgba(0,0,0,0.75);
+}
