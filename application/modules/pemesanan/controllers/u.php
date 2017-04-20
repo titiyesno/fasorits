@@ -118,8 +118,36 @@ class u extends MX_Controller {
 		$tgl = strtotime($data2['tanggal']);
 		$day = date('w', $tgl); //0 sunday 6 saturday
 		$beda = array(1, 4, 12, 5, 6, 13);
+		$event = array(4, 5, 6, 12, 13);
 		if($data3['kegiatan'] == 'turnamen'){
-			
+			if(in_array($data2['lapangan'],$event)){
+				if($day == 0 || $day == 6){
+					$data3['hari'] = 'weekend';
+				}
+				else{
+					$data3['hari'] = 'normal';
+				}
+				if(strtotime($jam_mulai[0]->start) >= strtotime('18:00:00')){
+					if($data2['lapangan'] == 4 || $data2['lapangan'] == 12){
+						if(strtotime($jam_mulai[0]->start) >= strtotime('21:00:00')){
+							$data3['shift'] = 'malam';
+						}
+						else{
+							$data3['shift'] = 'sore';
+						}
+					}
+					else{
+						$data3['shift'] = 'malam';
+					}
+				}
+				else{
+					$data3['shift'] = 'pagi';
+				}
+			}
+			else{
+				$data3['hari'] = '';
+				$data3['shift'] = '';
+			}
 		}
 		else{
 			if(in_array($data2['lapangan'],$beda)){
@@ -133,24 +161,31 @@ class u extends MX_Controller {
 			else{
 				$data3['hari'] = '';
 			}
-			$jam_mulai = $this->pemesanan_model->getStart($data2['slot']);
-			//echo $jam_mulai[0]->start;
-			if((strtotime($jam_mulai[0]->start) >= strtotime('18:00:00') and in_array($data2['lapangan'],$enam))
-				|| (strtotime($jam_mulai[0]->start) >= strtotime('19:00:00') and $data2['lapangan'] == 1)
-			|| (strtotime($jam_mulai[0]->start) >= strtotime('21:00:00') and in_array($data2['lapangan'],$sembilan))){
-				$data3['shift'] = 'malam';
-			}
-			else if((strtotime($jam_mulai[0]->start) >= strtotime('18:00:00') and strtotime($jam_mulai[0]->start) < strtotime('21:00:00')) and ($data2['lapangan'] == 4 || $data2['lapangan'] == 12)){
-				$data3['shift'] = 'sore';
+			if($data2['lapangan'] == 7 || $data2['lapangan'] == 8){
+				$data3['shift'] = '';
 			}
 			else{
-				$data3['shift'] = 'pagi';
+				$jam_mulai = $this->pemesanan_model->getStart($data2['slot']);
+				//echo $jam_mulai[0]->start;
+				if((strtotime($jam_mulai[0]->start) >= strtotime('18:00:00') and in_array($data2['lapangan'],$enam))
+					|| (strtotime($jam_mulai[0]->start) >= strtotime('19:00:00') and $data2['lapangan'] == 1)
+				|| (strtotime($jam_mulai[0]->start) >= strtotime('21:00:00') and in_array($data2['lapangan'],$sembilan))){
+					$data3['shift'] = 'malam';
+				}
+				else if((strtotime($jam_mulai[0]->start) >= strtotime('18:00:00') and strtotime($jam_mulai[0]->start) < strtotime('21:00:00')) and ($data2['lapangan'] == 4 || $data2['lapangan'] == 12)){
+					$data3['shift'] = 'sore';
+				}
+				else{
+					$data3['shift'] = 'pagi';
+				}
 			}
+			
 		}		
 		
 		$harga = $this->pemesanan_model->getHarga($data3);
 		//echo $harga[0]->nominal;
 		$data2['total'] = $harga[0]->nominal;
+		$databooking['total'] = $data2['total'];
 		$datapost['NOMINAL'] = $data2['total'];
 		$year = date("y");
 		$month = date("m");
@@ -160,11 +195,20 @@ class u extends MX_Controller {
 		$rand = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
 		$data2['code'] = $year.$month.$kode_unit.$angsuran.$rand;
 		$datapost['KODE'] = $data2['code'];
+		$databooking['kode'] = $data2['code'];
 		$datapost['EXPIRED'] = '';
+		$databooking['expired'] = $datapost['EXPIRED'];
 		//echo $data2['code'];
 		$pesan = $this->pemesanan_model->create_data($data2, 'pemesanan');
 		
 		$simondits = $this->pemesanan_model->postSubmit($datapost);
+		$menu = "hf/menu/menu_umum.php";
+        $footer = "hf/footer/footer.php";
+        $this->template->set_layout('fe');
+        $this->template->title("fasor Sepuluh Nopember");
+        $this->template->set_partial("menu", $menu);
+        $this->template->set_partial("footer", $footer);
+		$this->template->build("u_kode.php", $databooking);
     }
 
     function offer() {
