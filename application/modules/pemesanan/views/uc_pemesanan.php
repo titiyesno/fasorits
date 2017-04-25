@@ -52,9 +52,13 @@
                     <label>Slot </label>
                     <select class="form-control" name="slot">
 						<option value="">Pilih slot</option>
-                        <?php foreach ($slot as $data3) { ?>
-                            <option value="<?php echo $data3->slot; ?>"><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>
-                        <?php } ?>
+                        <?php foreach ($slot as $data3) { 
+							if(in_array($data3->slot, $terisi)){?>
+                            <option value="<?php echo $data3->slot; ?>" disabled><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>
+							<?php }
+							else{?>
+							<option value="<?php echo $data3->slot; ?>"><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>	
+							<?php }} ?>
                     </select>
                 </div>
                 <div class="form-group">
@@ -108,9 +112,14 @@
                     <div class="form-group">
                         <label>Slot </label>
                         <select class="form-control" name="slot">
-                            <?php foreach ($slot as $data3) { ?>
-                                <option value="<?php echo $data3->slot; ?>"><?php echo $data3->start . " - " . $data3->nama . "  ( " . $data3->start . ":00-" . $data3->end . ":00 )"; ?></option>
-                            <?php } ?>
+                            <option value="">Pilih slot</option>
+                        <?php foreach ($slot as $data3) { 
+							if(in_array($data3->slot, $terisi)){?>
+                            <option value="<?php echo $data3->slot; ?>" disabled><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>
+							<?php }
+							else{?>
+							<option value="<?php echo $data3->slot; ?>"><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>	
+							<?php }} ?>
                         </select>
                     </div>
                     <div class="form-group">
@@ -169,9 +178,14 @@
                     <div class="form-group">
                         <label>Slot </label>
                         <select class="form-control" name="slot">
-                            <?php foreach ($slot as $data3) { ?>
-                                <option value="<?php echo $data3->slot; ?>"><?php echo $data3->start . " - " . $data3->nama . "  ( " . $data3->start . ":00-" . $data3->end . ":00 )"; ?></option>
-                            <?php } ?>
+                            <option value="">Pilih slot</option>
+                        <?php foreach ($slot as $data3) { 
+							if(in_array($data3->slot, $terisi)){?>
+                            <option value="<?php echo $data3->slot; ?>" disabled><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>
+							<?php }
+							else{?>
+							<option value="<?php echo $data3->slot; ?>"><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>	
+							<?php }} ?>
                         </select>
                     </div>
                     <div class="form-group">

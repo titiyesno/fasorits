@@ -51,6 +51,12 @@ class pemesanan_model extends CI_model {
         $sql = "select * from slot where lapangan=?";
         return $this->query($sql,array($id));
     }
+	
+	public function slot_terisi($id){
+		$sql = "select slot from pemesanan where lapangan=$id";
+		return $this->query($sql);
+	}
+	
     function olahraga($id) {
         $sql = "select lapangan.id as id, lapangan.nama as lapangan, olahraga.nama as olahraga "
                 . " from lapangan left join olahraga on (olahraga.id=lapangan.olahraga) "

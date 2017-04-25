@@ -6,8 +6,10 @@
             <div class="row">
 				<div class="large-12 columns" style="min-height: 400px">
 					<center>
-						<h1 class="oxigenfontblue" style="color: red">Kode Booking Anda <b><?php echo $kode;?></b></h1s>
 						<h1 class="oxigenfontblue" >Total Biaya Rp. <?php echo $total;?></h1>
+						<br>
+						<h2 class="oxigenfontblue" >Kode Pembayaran <b><?php echo $kode;?></b></h2>
+						<br>
 						<h4 style="color: red">
 							<?php echo 'Simpan Kode Booking untuk melakukan pembayaran' ?>
 						</h4>

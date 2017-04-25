@@ -207,7 +207,7 @@ class s extends Super_Controller {
     }
 
     public function index() {
-        redirect('contact/s/');
+        redirect('pemesanan/s/');
        // $data['data_berita_all'] = $this->artikel_model->read_all_berita();
         //$data['data_jenis_all'] = $this->artikel_model->read_all_jenis();
         $menu = "hf/menu/menu_pengelola.php";

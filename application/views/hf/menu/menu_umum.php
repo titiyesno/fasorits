@@ -43,7 +43,7 @@ $lapangan = $this->db->query($sql)->result();
                     </li>
                     <li class="dropdown">
 
-                        <a href="" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" >Olahraga</a>
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" >Reservasi</a>
                         <ul class="dropdown-menu">
                             <?php foreach ($result as $value) {
                                 ?>

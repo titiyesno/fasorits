@@ -32,12 +32,15 @@ class s extends Super_Controller {
         $this->template->set_partial("menu", $menu);
         $this->template->set_partial("footer", $footer);
         $data['data'] = $this->pemesanan_model->disableDate();
-        $data['acara'] = $this->pemesanan_model->jenis_acara();
-        $data['slot'] = $this->pemesanan_model->slot();
+        //$data['acara'] = $this->pemesanan_model->jenis_acara();
+        $data['slot'] = $this->pemesanan_model->slot($id);
+        $data['olahraga'] = $this->pemesanan_model->olahraga($id);
         $this->form_validation->set_rules('name', "Name", 'required');
         $this->form_validation->set_rules('captcha', "Captcha", 'required');
         $userCaptcha = set_value('captcha');
         $word = $this->session->userdata('captchaWord');
+
+        $data['data0'] = $this->pemesanan_model->disableDate();
         if ($this->form_validation->run() == TRUE && strcmp(strtolower($userCaptcha), strtolower($word)) == 0) {
             $this->session->unset_userdata('captchaWord');
             $name = set_value('name');
@@ -68,8 +71,14 @@ class s extends Super_Controller {
         $this->template->title("Home Admin");
         $this->template->set_partial("menu", $menu);
         $this->template->set_partial("footer", $footer);
-        $data['events'] = $this->pemesanan_model->getAllevent();
+        //$data['events'] = $this->pemesanan_model->getAllevent();
         $this->template->build("dashboard.php", $data);
+    }
+	
+	function all() {
+        $temp1 = $this->pemesanan_model->read_pembayaran2();
+        $data["submit"] = $this->getPivot($temp1);
+        return $data["submit"];
     }
 
     function cetakbukti($id) {
