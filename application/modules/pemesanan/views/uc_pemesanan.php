@@ -1,3 +1,36 @@
+<script>
+	function getslot(){
+		var tgl = $('#tanggal').val();
+		//console.log(tgl);
+		var idlap = <?php echo json_encode($idlap); ?> ;
+		//console.log(idlap);
+		$.ajax({
+            type: "POST",
+            url: "<?php  echo base_url(); ?>index.php/pemesanan/u/getslot/"+tgl+"/"+idlap,
+            success: function(data){
+				//console.log(data);
+                $("#idslot").html(data);
+            }
+
+        });
+	}
+	function getslotaka(){
+		var tgl = $('#tanggalaka').val();
+		//console.log(tgl);
+		var idlap = <?php echo json_encode($idlap); ?> ;
+		//console.log(idlap);
+		$.ajax({
+            type: "POST",
+            url: "<?php  echo base_url(); ?>index.php/pemesanan/u/getslot/"+tgl+"/"+idlap,
+            success: function(data){
+				//console.log(data);
+                $("#idslotaka").html(data);
+            }
+
+        });
+	}
+</script>
+
 <div class="tabs">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab4-1" data-toggle="tab"><i class="icon-star"></i>Umum</a></li>
@@ -25,8 +58,8 @@
                 </div>
                 <div class="form-group">
                     <label>Tanggal</label>
-                    <div class='input-group date' id='datetimepicker5'>
-                        <input type='text' name="date" readonly="" class="form-control" />
+                    <div class='input-group date' id='datetimepicker5'">
+                        <input type='text' name="date" readonly="" class="form-control" id="tanggal" onchange="getslot()"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
@@ -50,15 +83,8 @@
                 </div>
                 <div class="form-group">
                     <label>Slot </label>
-                    <select class="form-control" name="slot">
-						<option value="">Pilih slot</option>
-                        <?php foreach ($slot as $data3) { 
-							if(in_array($data3->slot, $terisi)){?>
-                            <option value="<?php echo $data3->slot; ?>" disabled><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>
-							<?php }
-							else{?>
-							<option value="<?php echo $data3->slot; ?>"><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>	
-							<?php }} ?>
+                    <select class="form-control" name="slot" id="idslot">
+						
                     </select>
                 </div>
                 <div class="form-group">
@@ -87,7 +113,7 @@
                     <div class="form-group">
                         <label>Tanggal</label>
                         <div class='input-group date' id='datetimepicker6'>
-                            <input type='text' name="date" readonly="" class="form-control" id="form_tanggal" />
+                            <input type='text' name="date" readonly="" class="form-control" id="tanggalaka" onchange="getslotaka()" />
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
@@ -111,15 +137,8 @@
 						</div>
                     <div class="form-group">
                         <label>Slot </label>
-                        <select class="form-control" name="slot">
-                            <option value="">Pilih slot</option>
-                        <?php foreach ($slot as $data3) { 
-							if(in_array($data3->slot, $terisi)){?>
-                            <option value="<?php echo $data3->slot; ?>" disabled><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>
-							<?php }
-							else{?>
-							<option value="<?php echo $data3->slot; ?>"><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>	
-							<?php }} ?>
+                        <select class="form-control" name="slot" id="idslotaka">
+						
                         </select>
                     </div>
                     <div class="form-group">

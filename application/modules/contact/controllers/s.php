@@ -18,6 +18,7 @@ class s extends Super_Controller {
         $data ["pengaduan"] = $this->getPivot($temp1);
         return $data ["pengaduan"];
     }
+	
     function index(){
                 $data['error'] = '';
         $menu = "hf/menu/menu_pengelola.php";

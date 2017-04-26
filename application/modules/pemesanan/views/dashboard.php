@@ -1,45 +1,62 @@
-<script type="text/javascript" src="<?php echo base_url() ?>static/pivot/pivot.js"></script>
-<script type="text/javascript" src="<?php echo base_url() ?>static/pivot/jquery_pivot.js"></script>
-<!-- pivot stuff -->
-<link rel="stylesheet" href="<?php echo base_url() ?>static/pivot/bootstrap.min.css" type="text/css">
-<script type="text/javascript" async="" src="<?php echo base_url() ?>static/pivot/c.js"></script>
-<script async="" src="<?php echo base_url() ?>static/pivot/analytics.js"></script>
-<script type="text/javascript" src="<?php echo base_url() ?>static/pivot/subnav.js"></script>
-<script type="text/javascript" src="<?php echo base_url() ?>static/pivot/accounting.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url() ?>static/pivot/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url() ?>static/pivot/dataTables.bootstrap.js"></script>
-<div class="row">
-    <div class="col-md-12">
-    <div class="box box-info">
-    <div class="box-body">
-        <div class="row form-group" >
-            <div class="col-lg-12">
-                <ul class="nav nav-pills">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Filter Fields <b class="caret"></b> </a>
-                        <ul class="dropdown-menu stop-propagation" style="overflow:auto;max-height:450px;padding:10px;">
-                            <div id="filter-list"></div>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Row Label Fields <b class="caret"></b> </a>
-                        <ul class="dropdown-menu stop-propagation" style="overflow:auto;max-height:450px;padding:10px;">
-                            <div id="row-label-fields"></div>
-                        </ul>
-                    </li>
-                </ul>
+<script type="text/javascript" src="<?php echo base_url() ?>gui_modul/pivot/pivot.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>gui_modul/pivot/jquery_pivot.js"></script>
 
-                <hr/>
 
-                <h3 class="oxigenfontblue">Hasilnya</h3>
-                <span class="hide-on-print" id="pivot-detail"></span>
-                <hr/>
-                <div style="overflow-x: scroll" id="results"></div>
-            </div>
+<script type="text/javascript" src="<?php echo base_url(); ?>gui_modul/ckeditor/ckeditor.js"></script>
+
+<script type="text/javascript" async="" src="<?php echo base_url() ?>gui_modul/pivot/c.js"></script>
+<script async="" src="<?php echo base_url() ?>gui_modul/pivot/analytics.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>gui_modul/pivot/subnav.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>gui_modul/pivot/accounting.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>gui_modul/pivot/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>gui_modul/pivot/dataTables.bootstrap.js"></script>
+<!-- Primary box -->
+<section class="content-header">
+    <h1>
+        Contact
+        <small>Contact</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="<?php echo base_url("index.php/home/u") ?>"><i class="fa fa-dashboard"></i> Contact</a></li>
+        <li class="active">member </li>
+    </ol>
+</section>
+<div class="content">
+    <div class="box box-solid">
+        <div class="box-header">
+            <h3 class="box-title">Contact Member</h3>
+
         </div>
-    </div>
-    </div>
-    </div>
+        <div class="panel-body">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul class="nav nav-pills">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Filter Fields <b class="caret"></b> </a>
+                                <ul class="dropdown-menu stop-propagation" style="overflow:auto;max-height:450px;padding:10px;">
+                                    <div id="filter-list"></div>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Row Label Fields <b class="caret"></b> </a>
+                                <ul class="dropdown-menu stop-propagation" style="overflow:auto;max-height:450px;padding:10px;">
+                                    <div id="row-label-fields"></div>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <hr/>
+
+                        <h3 >Result</h3>
+                        <span class="hide-on-print" id="pivot-detail"></span>
+                        <hr/>
+                        <div style="overflow-x: scroll" id="results"></div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.box-body -->
+    </div><!-- /.box -->
 </div>
 
 <script type="text/javascript">
@@ -56,12 +73,7 @@
             type : 'string',
             filterable : true
         },{
-            name : 'WAKTU BOOKING',
-            type : 'string',
-            filterable : true
-        }, 
-            {
-            name : 'JENIS INAP',
+            name : 'TANGGAL PESAN',
             type : 'string',
             filterable : true
         }
@@ -102,14 +114,14 @@
         var jso;
         $.ajax({
             type : "POST",
-            url : '<?php echo base_url(); ?>index.php/pemesanan/s/all',
+            url : '<?php echo base_url(); ?>index.php/pemesanan/s/getreservasi',
             success : function(dataCheck) {
                 jso = dataCheck;
                 setupPivot({
                     json : jso,
                     fields : fields,
 //                    rowLabels : ["NRP APLIKAN","PROGRAM DITERIMA","CODE BOOKING","NAMA JENIS SUBMIT"]
-                    rowLabels : ["NOMOR IDENTITAS","NAMA","CODE BOOKING","WAKTU BOOKING"]
+                    rowLabels : ["NOMOR IDENTITAS","NAMA","CODE BOOKING","TANGGAL PESAN"]
                 })
                 $('.stop-propagation').click(function(event) {
                     event.stopPropagation();

@@ -35,14 +35,15 @@ class u extends MX_Controller {
         $this->template->set_partial("footer", $footer);
         $data['data'] = $this->pemesanan_model->disableDate();
         //$data['acara'] = $this->pemesanan_model->jenis_acara();
-        $data['slot'] = $this->pemesanan_model->slot($id);
+        //$data['slot'] = $this->pemesanan_model->slot($id);
+		$data['idlap'] = $id;
         $data['olahraga'] = $this->pemesanan_model->olahraga($id);
-		$data3['terisi'] = $this->pemesanan_model->slot_terisi($id);
+		//$data3['terisi'] = $this->pemesanan_model->slot_terisi($id);
 		//echo $data['slot'][0]->slot;
-		$data['terisi'] = array();
+		/*$data['terisi'] = array();
 		foreach($data3['terisi'] as $tes){
 			array_push($data['terisi'], $tes->slot);
-		}
+		}*/
         $this->form_validation->set_rules('name', "Name", 'required');
         $this->form_validation->set_rules('captcha', "Captcha", 'required');
         $userCaptcha = set_value('captcha');
@@ -207,6 +208,7 @@ class u extends MX_Controller {
 		$datetime = date("Y-m-d H:i:s", $dateplus1);
 		$datapost['EXPIRED'] = $datetime;
 		$databooking['expired'] = $datapost['EXPIRED'];
+		$datapost['TGL_INPUT'] = $datetoday->format('Y-m-d H:i:s');
 		//echo $datapost['EXPIRED'];
 		$databooking['expired'] = $datapost['EXPIRED'];
 		//echo $data2['code'];
@@ -418,5 +420,26 @@ class u extends MX_Controller {
         }
         redirect('pemesanan/u/fasilitas');
     }
+	
+	function getslot($tgl,$id){
+		$htmlres = "<option value=\"\">Pilih slot</option>";
+		$slot = $this->pemesanan_model->slot($id);
+		$terisi = $this->pemesanan_model->slot_terisi($tgl,$id);
+		$reserved = array();
+		foreach($terisi as $tes){
+			array_push($reserved, $tes->slot);
+		}
+		foreach($slot as $all){
+			if(in_array($all->slot,$reserved)){
+				//echo "reserved";
+				$htmlres .="<option value=".$all->slot." disabled>".$all->nama." ( ".$all->start." - ".$all->end." )</option>";
+			}
+			else{
+				//echo $all->slot;
+				$htmlres .="<option value=".$all->slot.">".$all->nama." ( ".$all->start." - ".$all->end." )</option>";
+			}
+		}
+		echo $htmlres;
+	}
 
 }

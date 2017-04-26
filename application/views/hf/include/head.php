@@ -1,7 +1,5 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width" />
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 <script src="<?php echo base_url() ?>assets/js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>

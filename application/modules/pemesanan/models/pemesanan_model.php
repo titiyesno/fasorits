@@ -52,8 +52,8 @@ class pemesanan_model extends CI_model {
         return $this->query($sql,array($id));
     }
 	
-	public function slot_terisi($id){
-		$sql = "select slot from pemesanan where lapangan=$id";
+	public function slot_terisi($tgl,$id){
+		$sql = "select slot from pemesanan where lapangan=$id and tanggal = '".$tgl."'";
 		return $this->query($sql);
 	}
 	
@@ -89,7 +89,8 @@ class pemesanan_model extends CI_model {
 				'nrp'       => '',
 				'nama'      => $datapost["NAMA"],
 				'nominal'   => $datapost["NOMINAL"],
-				'expired'   => $datapost["EXPIRED"],
+				'tanggal_input'		=> $datapost["TGL_INPUT"],
+				'tanggal_expired'   => $datapost["EXPIRED"],
 				'AMU-KEY'   =>  $key
 		);
 
@@ -130,6 +131,25 @@ class pemesanan_model extends CI_model {
     public function item($id)
     {
         $sql = 'select * from item where item.kategori_idkategori = '.$id;
+        return $this->query($sql);
+    }
+	
+	function getreservasi(){
+		$sql = 'select pemesanan.idpemesanan, pemesanan.tanggal_pesan as TANGGAL_PESAN,
+                  pemesanan.code as CODE_BOOKING, pemesanan.tanggal as TANGGAL_DIPESAN,
+                        pemesan.nama as NAMA, pemesan.noid as NOMOR_IDENTITAS, pemesan.email as EMAIL,
+                        pemesan.alamat as ALAMAT, pemesan.telp as TELEPON, lapangan.nama as LAPANGAN, slot.start as SLOT_MULAI,
+                        slot.end as SLOT_SELESAI
+                        from pemesanan
+                        left join pemesan on (pemesanan.pemesan_idpemesan=pemesan.idpemesan)
+                        left join lapangan on (pemesanan.lapangan = lapangan.id)
+                        left join slot on (pemesanan.slot = slot.slot)
+                where pemesanan.status = 0 group by pemesanan.code';
+        return $this->query($sql);
+	}
+	
+	function getcontact(){
+        $sql = 'select contact.nama, contact.email, contact.pesan from contact';
         return $this->query($sql);
     }
 }

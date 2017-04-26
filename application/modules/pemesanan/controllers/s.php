@@ -65,20 +65,67 @@ class s extends Super_Controller {
     function index() {
         $data['error'] = '';
         $menu = "hf/menu/menu_pengelola.php";
-        $subnav = "subnav.php";
         $footer = "hf/footer/footer.php";
         $this->template->set_layout('back_end');
         $this->template->title("Home Admin");
         $this->template->set_partial("menu", $menu);
         $this->template->set_partial("footer", $footer);
-        //$data['events'] = $this->pemesanan_model->getAllevent();
-        $this->template->build("dashboard.php", $data);
+        $this->template->build("dashboard.php",$data);
     }
 	
-	function all() {
-        $temp1 = $this->pemesanan_model->read_pembayaran2();
-        $data["submit"] = $this->getPivot($temp1);
-        return $data["submit"];
+	function getreservasi() {
+        $temp1 = $this->pemesanan_model->getreservasi();
+        $data ["submit"] = $this->getPivot($temp1);
+        return $data ["submit"];
+    }
+	
+	private function getPivot($data) {
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Content-type: application/json');
+        $header = "[[";
+        foreach ($data as $value) {
+            foreach ($value as $key => $sembarang) {
+                $header .= '"' . str_replace("_", " ", strtoupper($key)) . '"';
+                break;
+            }
+            $count = 1;
+            foreach ($value as $key => $sembarang) {
+                if ($count > 1)
+                    $header .= ',"' . str_replace("_", " ", strtoupper($key)) . '"';
+                $count++;
+            }
+            $header .= "]";
+            break;
+        }
+        $idnya;
+        foreach ($data as $value) {
+            $header .= ",[";
+            foreach ($value as $key => $data) {
+                if($key == "idpemesanan")
+                {
+                    $idnya = $data;
+                }
+                
+                if ($key == "CODE_BOOKING")
+                    $header .= '"<a href=\'' . base_url() . 'index.php/pembayaran/admin/pembayaran/' . $data.'/'.$idnya . '>' . $data . '</a>"';
+                else
+                    $header .= '"' . $data . '"';
+                break;
+            }
+            $count = 1;
+            foreach ($value as $key => $data) {
+                if ($count > 1) {
+                    if ($key == "CODE_BOOKING")
+                        $header .= ',"<a href=\'' . base_url() . 'index.php/pembayaran/admin/pembayaran/' . $data.'/'.$idnya .'\'>' . $data . '</a>"';
+                    else
+                        $header .= ',"' . $data . '"';
+                }
+                $count++;
+            }
+            $header .= "]";
+        }
+        $header .= "]";
+        echo $header;
     }
 
     function cetakbukti($id) {

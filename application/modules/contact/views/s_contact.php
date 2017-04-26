@@ -102,6 +102,7 @@
             url: '<?php echo base_url() ?>index.php/contact/s/getmember/',
             data: data_pos,
             success: function (dataCheck) {
+				
                 jso = dataCheck;
                 setupPivot({
                     json: jso,
