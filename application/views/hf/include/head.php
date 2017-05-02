@@ -16,6 +16,11 @@
 <link href="<?php echo base_url() ?>assets/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url() ?>assets/css/AdminLTE.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url() ?>assets/css/custom.css" rel="stylesheet" type="text/css" />
-<link href="<?php echo base_url() ?>assets/css/datepicker.css" rel="stylesheet" type="text/css" />
+<!--<link href="<?php echo base_url() ?>assets/css/datepicker.css" rel="stylesheet" type="text/css" />-->
+
+<link href="<?php echo base_url() ?>gui_modul/date/css/datepicker3.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url() ?>gui_modul/frontend/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>gui_modul/datepicker/js/moment-with-locale.js"></script>
+<script src="<?php echo base_url() ?>gui_modul/date/js/bootstrap-datepicker.js"></script>
 
 

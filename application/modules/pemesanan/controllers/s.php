@@ -163,6 +163,7 @@ class s extends Super_Controller {
 	
 	function pesan($id) {
         $menu = "hf/menu/menu_pengelola.php";
+		$subnav = "subnav.php";
         $footer = "hf/footer/footer.php";
         $this->template->set_layout('back_end');
         $this->template->title("Home Admin");
