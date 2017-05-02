@@ -13,25 +13,25 @@
 <!-- Primary box -->
 <section class="content-header">
     <h1>
-        Contact
-        <small>Contact</small>
+        Reservasi
+        <small>Reservasi</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="<?php echo base_url("index.php/home/u") ?>"><i class="fa fa-dashboard"></i> Contact</a></li>
-        <li class="active">member </li>
+        <li><a href="<?php echo base_url("index.php/home/u") ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active">Daftar Reservasi </li>
     </ol>
 </section>
 <div class="content">
     <div class="box box-solid">
         <div class="box-header">
-            <h3 class="box-title">Contact Member</h3>
+            <h3 class="box-title">Daftar Reservasi</h3>
 
         </div>
         <div class="panel-body">
             <div class="box-body">
                 <div class="row">
                     <div class="col-sm-12">
-                        <ul class="nav nav-pills">
+                        <!--<ul class="nav nav-pills">
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Filter Fields <b class="caret"></b> </a>
                                 <ul class="dropdown-menu stop-propagation" style="overflow:auto;max-height:450px;padding:10px;">
@@ -44,7 +44,7 @@
                                     <div id="row-label-fields"></div>
                                 </ul>
                             </li>
-                        </ul>
+                        </ul>-->
 
                         <hr/>
 

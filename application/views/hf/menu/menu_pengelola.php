@@ -1,3 +1,9 @@
+<?php
+$sql = "select * from olahraga";
+$result = $this->db->query($sql)->result();
+$sql = "select * from lapangan";
+$lapangan = $this->db->query($sql)->result();
+?>
 <aside class="left-side sidebar-offcanvas">
     <section class="sidebar">
         <div class="user-panel">
@@ -15,10 +21,37 @@
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
-            <li class="active">
-                <a href="<?php echo base_url("index.php/pemesanan/s/reservasi") ?>">
-                    <i class="fa fa-dashboard"></i> <span>Reservasi Admin</span>
+            <li class="treeview">
+				<a href="#">
+                    <i class="fa fa-bar-chart-o"></i> 
+                    <span>Reservasi Admin</span>
+                    <small class="badge pull-right bg-blue">ok</small>
+                    <i class="fa fa-angle-left pull-right"></i>
                 </a>
+                <!--<a href="<?php echo base_url("index.php/pemesanan/s/reservasi") ?>">
+                    <i class="fa fa-dashboard"></i> <span>Reservasi Admin</span>
+                </a>-->
+				<ul class="treeview-menu">
+					<?php foreach($result as $value){ ?>
+                    <li class="treeview">
+						<a href="#">
+							<i></i> 
+							<span><?php echo $value->nama; ?></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+						<ul class="treeview-menu">
+							<?php foreach($lapangan as $lap){
+								if($lap->olahraga==$value->id){
+								?>
+							<li><a href="<?php echo base_url("index.php/pemesanan/s/pesan/$lap->id"); ?>">
+								<i class=""></i><?php echo $lap->nama; ?> <span></span>
+							</a>
+							</li>
+							<?php }} ?>
+						</ul>
+					</li>
+					<?php } ?>
+                </ul>
             </li>
             <li class="treeview">
                 <a href="#">

@@ -107,7 +107,7 @@ class s extends Super_Controller {
                 }
                 
                 if ($key == "CODE_BOOKING")
-                    $header .= '"<a href=\'' . base_url() . 'index.php/pembayaran/admin/pembayaran/' . $data.'/'.$idnya . '>' . $data . '</a>"';
+                    $header .= '"<a href=\'' . base_url() . 'index.php/pemesanan/s/booking_details/' . $data.'/'.$idnya . '>' . $data . '</a>"';
                 else
                     $header .= '"' . $data . '"';
                 break;
@@ -116,7 +116,7 @@ class s extends Super_Controller {
             foreach ($value as $key => $data) {
                 if ($count > 1) {
                     if ($key == "CODE_BOOKING")
-                        $header .= ',"<a href=\'' . base_url() . 'index.php/pembayaran/admin/pembayaran/' . $data.'/'.$idnya .'\'>' . $data . '</a>"';
+                        $header .= ',"<a href=\'' . base_url() . 'index.php/pemesanan/s/booking_details/' . $data.'/'.$idnya .'\'>' . $data . '</a>"';
                     else
                         $header .= ',"' . $data . '"';
                 }
@@ -147,6 +147,63 @@ class s extends Super_Controller {
         $this->db->where('idpemesanan', $id);
         $this->db->update("pemesanan");
         redirect("pemesanan/s/");
+    }
+	
+	function booking_details($booking_code){
+		$data['error'] = '';
+        $menu = "hf/menu/menu_pengelola.php";
+		$subnav = "subnav.php";
+        $footer = "hf/footer/footer.php";
+        $this->template->set_layout('back_end');
+        $this->template->title("Home Admin");
+        $this->template->set_partial("menu", $menu);
+        $this->template->set_partial("footer", $footer);
+        $this->template->build("details.php",$data);
+	}
+	
+	function pesan($id) {
+        $menu = "hf/menu/menu_pengelola.php";
+        $footer = "hf/footer/footer.php";
+        $this->template->set_layout('back_end');
+        $this->template->title("Home Admin");
+        $this->template->set_partial("menu", $menu);
+        $this->template->set_partial("footer", $footer);
+        $data['data'] = $this->pemesanan_model->disableDate();
+        //$data['acara'] = $this->pemesanan_model->jenis_acara();
+        //$data['slot'] = $this->pemesanan_model->slot($id);
+		$data['idlap'] = $id;
+        $data['olahraga'] = $this->pemesanan_model->olahraga($id);
+		//$data3['terisi'] = $this->pemesanan_model->slot_terisi($id);
+		//echo $data['slot'][0]->slot;
+		/*$data['terisi'] = array();
+		foreach($data3['terisi'] as $tes){
+			array_push($data['terisi'], $tes->slot);
+		}*/
+        $this->form_validation->set_rules('name', "Name", 'required');
+        $this->form_validation->set_rules('captcha', "Captcha", 'required');
+        $userCaptcha = set_value('captcha');
+        $word = $this->session->userdata('captchaWord');
+
+        $data['data0'] = $this->pemesanan_model->disableDate();
+        if ($this->form_validation->run() == TRUE && strcmp(strtolower($userCaptcha), strtolower($word)) == 0) {
+            $this->session->unset_userdata('captchaWord');
+            $name = set_value('name');
+            $data = array('name' => $name);
+            print_r($data);
+        } else {
+            $vals = array(
+                'img_path' => './index/',
+                'img_url' => 'http://localhost/captcha/',
+                'img_width' => '150',
+                'img_height' => 30,
+                'expiration' => 7200
+            );
+            /* Generate the captcha */
+            $captcha = create_captcha($vals);
+            /* Store the captcha value (or 'word') in a session to retrieve later */
+            $this->session->set_userdata('captchaWord', $captcha['word']);
+            $this->template->build("s_home.php", $data);
+        }
     }
 
 }
