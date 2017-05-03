@@ -73,11 +73,28 @@ class s extends Super_Controller {
         $this->template->build("dashboard.php",$data);
     }
 	
+	function sudahbayar(){
+		$data['error'] = '';
+        $menu = "hf/menu/menu_pengelola.php";
+        $footer = "hf/footer/footer.php";
+        $this->template->set_layout('back_end');
+        $this->template->title("Home Admin");
+        $this->template->set_partial("menu", $menu);
+        $this->template->set_partial("footer", $footer);
+        $this->template->build("lunas.php",$data);
+	}
+	
 	function getreservasi() {
         $temp1 = $this->pemesanan_model->getreservasi();
         $data ["submit"] = $this->getPivot($temp1);
         return $data ["submit"];
     }
+	
+	function getlunas(){
+		$temp1 = $this->pemesanan_model->getlunas();
+        $data ["submit"] = $this->getPivot($temp1);
+        return $data ["submit"];
+	}
 	
 	private function getPivot($data) {
         header('Cache-Control: no-cache, must-revalidate');
@@ -155,10 +172,32 @@ class s extends Super_Controller {
 		$subnav = "subnav.php";
         $footer = "hf/footer/footer.php";
         $this->template->set_layout('back_end');
-        $this->template->title("Home Admin");
+        $this->template->title("Detail Reservasi");
+		
+		$url = "https://simondits.its.ac.id/api_amu?id_unit=105&kode=".$booking_code."&AMU-KEY=697190fd04cd9394010280a8cbf5ed51";
+		//  Initiate curl
+		$ch = curl_init();
+		// Disable SSL verification
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		// Will return the response, if false it print the response
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		// Set the url
+		curl_setopt($ch, CURLOPT_URL,$url);
+		// Execute
+		$result=curl_exec($ch);
+		// Closing
+		curl_close($ch);
+		
+		$decode = json_decode($result,true);
+		
+		$data["flag_api"] = $decode[0]["BILL_FLAG"];
+		$data["amount_api"] = $decode[0]["BILL_AMOUNT"];
+		
+		$data["aplikan"] = $this->pemesanan_model->readaplikan($booking_code);
+		
         $this->template->set_partial("menu", $menu);
         $this->template->set_partial("footer", $footer);
-        $this->template->build("details.php",$data);
+        $this->template->build("details_rev.php",$data);
 	}
 	
 	function pesan($id) {
@@ -205,6 +244,335 @@ class s extends Super_Controller {
             $this->session->set_userdata('captchaWord', $captcha['word']);
             $this->template->build("s_home.php", $data);
         }
+    }
+	
+	function batalkanpesanan(){
+        $codebooking = $this->input->post('cb');
+		/*$datalog["ID_PENGELOLA"] = $this->session->userdata["telah_masuk"]["id"];
+		$datalog["MESSAGE"] = "Batal manual kode booking ".$codebooking;
+		$datalog["WAKTU"] = date("Y-m-d G:i:s");
+		$tes = $this->reservasi_model->record_log($datalog);*/
+		$url = "https://simondits.its.ac.id/api_amu?id_unit=105&kode=".$codebooking."&AMU-KEY=697190fd04cd9394010280a8cbf5ed51";
+		//$url = "http://10.199.13.60/simondits/index.php/api_amu?id_unit=103&kode=".$cb."&AMU-KEY=697190fd04cd9394010280a8cbf5ed51";
+		//  Initiate curl
+		$ch = curl_init();
+		// Disable SSL verification
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		// Will return the response, if false it print the response
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		// Set the url
+		curl_setopt($ch, CURLOPT_URL,$url);
+		// Execute
+		$result=curl_exec($ch);
+		// Closing
+		curl_close($ch);
+		
+		$decode = json_decode($result,true);
+//        $idsubmit = $this->pembayaran_model->getidsubmit_bybookingcode($codebooking);
+//        foreach ($idsubmit as $aa) {
+////            echo $aa->ID_SUBMIT;
+//            $this->pembayaran_model->delete_angsuran_byidsubmit($aa->ID_SUBMIT);
+//        }
+        /*$status = $this->pembayaran_model->status($codebooking);
+		foreach($status as $data1){
+			$stat = $data1->STATUS;
+		}*/
+
+		if($decode[0]["BILL_FLAG"] == 1){
+			$this->pemesanan_model->ubahstatussubmit_bycodebooking($codebooking,4);
+		}
+		else{
+			$this->pemesanan_model->ubahstatussubmit_bycodebooking($codebooking,99);
+		}
+		
+        redirect(base_url() . 'index.php/pemesanan/s');
+    }
+	
+	function pay()
+    {
+        $codebooking = $this->input->post('kode_booking');      
+        $nominal = $this->input->post("nominal");
+        /*$data["ID_PENGELOLA"] = $this->session->userdata["telah_masuk"]["id"];
+        $data["TANGGAL_ANGSURAN"] = date("Y-m-d");*/
+		$data["KODE"] = $codebooking;
+        $data["TANGGAL_BAYAR"] = $this->input->post("tanggal");
+        $data["VIA"] = $this->input->post("via");
+		$data["REKENING_PENERIMA"] = $this->input->post("rekening");
+		$data["BANK_PENERIMA"] = $this->input->post("bank");
+		
+		$data2["aplikan"] = $this->pemesanan_model->readaplikan($codebooking);
+		
+        $data3 = $data;
+		$dataput["KODE"] = $codebooking;
+		$dataput["REKENING"] = $data["REKENING_PENERIMA"];
+		$dataput["KODE_BANK"] = $data["BANK_PENERIMA"];
+		$dataput["TANGGAL_BAYAR"] = $data["TANGGAL_BAYAR"];
+		$simondits = $this->pemesanan_model->put_api($dataput);
+	
+		/*$datalog["ID_PENGELOLA"] = $this->session->userdata["telah_masuk"]["id"];
+		$datalog["MESSAGE"] = "Bayar manual kode booking ".$codebooking;
+		$datalog["WAKTU"] = date("Y-m-d G:i:s");
+		$this->pembayaran_model->record_log($datalog);*/
+  
+        if($data2["aplikan"][0]->total==$nominal)
+        {
+			$data3["STATUS"] = 2;
+            $this->pemesanan_model->update_bayar($data3);
+        }
+        else
+        {
+			$data3["STATUS"] = 0;
+            $this->pemesanan_model->update_bayar($data3);
+        }
+		
+        redirect("pemesanan/s/booking_details/".$codebooking,"refresh");
+    }
+	
+	function umum() {
+        $data['noid'] = $this->input->post("noid");
+        $data['nama'] = $this->input->post("nama");
+        $data['telp'] = $this->input->post("telp");
+        //$data['alamat'] = $this->input->post("alamat");
+        $data['email'] = $this->input->post("email");
+        $id = $this->pemesanan_model->create_data($data, 'pemesan');
+		$datapost['NAMA'] = $data['nama'];
+		//echo $data['noid']." | ".$data['nama']." | ".$data['telp']." | ".$data['alamat']." | ".$data['email'];
+        $data2['tanggal'] = $this->input->post("date");
+        $data2['slot'] = $this->input->post("slot");
+        $data2['lapangan'] = $this->input->post("jenis");
+        $data2['pemesan_idpemesan'] = $id;
+        $data2['admin_idadmin'] = 1;
+        $data2['status'] = 0;
+		$data3['kegiatan'] = $this->input->post("kegiatan");
+		//echo $data2['tanggal']." | ".$data2['slot']." | ".$data2['lapangan'];
+		$data3['pengguna'] = 'umum';
+		$data3['idlap'] = $data2['lapangan'];
+		$enam = array(13, 6, 5, 3);
+		$sembilan = array(4, 12, 2, 9, 10, 11);
+		$tgl = strtotime($data2['tanggal']);
+		$day = date('w', $tgl); //0 sunday 6 saturday
+		$beda = array(1, 4, 12, 5, 6, 13);
+		$event = array(4, 5, 6, 12, 13);
+		if($data3['kegiatan'] == 'turnamen'){
+			if(in_array($data2['lapangan'],$event)){
+				if($day == 0 || $day == 6){
+					$data3['hari'] = 'weekend';
+				}
+				else{
+					$data3['hari'] = 'normal';
+				}
+				if(strtotime($jam_mulai[0]->start) >= strtotime('18:00:00')){
+					if($data2['lapangan'] == 4 || $data2['lapangan'] == 12){
+						if(strtotime($jam_mulai[0]->start) >= strtotime('21:00:00')){
+							$data3['shift'] = 'malam';
+						}
+						else{
+							$data3['shift'] = 'sore';
+						}
+					}
+					else{
+						$data3['shift'] = 'malam';
+					}
+				}
+				else{
+					$data3['shift'] = 'pagi';
+				}
+			}
+			else{
+				$data3['hari'] = '';
+				$data3['shift'] = '';
+			}
+		}
+		else{
+			if(in_array($data2['lapangan'],$beda)){
+				if($day == 0 || $day == 6){
+					$data3['hari'] = 'weekend';
+				}
+				else{
+					$data3['hari'] = 'normal';
+				}
+			}
+			else{
+				$data3['hari'] = '';
+			}
+			if($data2['lapangan'] == 7 || $data2['lapangan'] == 8){
+				$data3['shift'] = '';
+			}
+			else{
+				$jam_mulai = $this->pemesanan_model->getStart($data2['slot']);
+				//echo $jam_mulai[0]->start;
+				if((strtotime($jam_mulai[0]->start) >= strtotime('18:00:00') and in_array($data2['lapangan'],$enam))
+					|| (strtotime($jam_mulai[0]->start) >= strtotime('19:00:00') and $data2['lapangan'] == 1)
+				|| (strtotime($jam_mulai[0]->start) >= strtotime('21:00:00') and in_array($data2['lapangan'],$sembilan))){
+					$data3['shift'] = 'malam';
+				}
+				else if((strtotime($jam_mulai[0]->start) >= strtotime('18:00:00') and strtotime($jam_mulai[0]->start) < strtotime('21:00:00')) and ($data2['lapangan'] == 4 || $data2['lapangan'] == 12)){
+					$data3['shift'] = 'sore';
+				}
+				else{
+					$data3['shift'] = 'pagi';
+				}
+			}
+			
+		}		
+		
+		$harga = $this->pemesanan_model->getHarga($data3);
+		//echo $harga[0]->nominal;
+		$data2['total'] = $harga[0]->nominal;
+		$databooking['total'] = $data2['total'];
+		$datapost['NOMINAL'] = $data2['total'];
+		$year = date("y");
+		$month = date("m");
+		$kode_unit = "105";
+		$angsuran = "01";
+		$digits = 6;
+		$rand = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
+		$data2['code'] = $year.$month.$kode_unit.$angsuran.$rand;
+		$datapost['KODE'] = $data2['code'];
+		$databooking['kode'] = $data2['code'];
+		$datetoday = new DateTime();
+		$dateplus1 = (strtotime($datetoday->format('Y-m-d H:i:s'))*1000 + 95177766) / 1000;
+		$datetime = date("Y-m-d H:i:s", $dateplus1);
+		$datapost['EXPIRED'] = $datetime;
+		$databooking['expired'] = $datapost['EXPIRED'];
+		$datapost['TGL_INPUT'] = $datetoday->format('Y-m-d H:i:s');
+		//echo $datapost['EXPIRED'];
+		$databooking['expired'] = $datapost['EXPIRED'];
+		//echo $data2['code'];
+		$pesan = $this->pemesanan_model->create_data($data2, 'pemesanan');
+		
+		$simondits = $this->pemesanan_model->postSubmit($datapost);
+		$menu = "hf/menu/menu_pengelola.php";
+        $footer = "hf/footer/footer.php";
+		$subnav = "subnav.php";
+        $this->template->set_layout('back_end');
+        $this->template->title("fasor Sepuluh Nopember");
+        $this->template->set_partial("menu", $menu);
+        $this->template->set_partial("footer", $footer);
+		$this->template->build("s_kode.php", $databooking);
+    }
+	
+	function akademik() {
+        $data['noid'] = $this->input->post("noid");
+        $data['nama'] = $this->input->post("nama");
+        $data['telp'] = $this->input->post("telp");
+        //$data['alamat'] = $this->input->post("alamat");
+        $data['email'] = $this->input->post("email");
+        $id = $this->pemesanan_model->create_data($data, 'pemesan');
+		$datapost['NAMA'] = $data['nama'];
+		//echo $data['noid']." | ".$data['nama']." | ".$data['telp']." | ".$data['alamat']." | ".$data['email'];
+        $data2['tanggal'] = $this->input->post("date");
+        $data2['slot'] = $this->input->post("slot");
+        $data2['lapangan'] = $this->input->post("jenis");
+        $data2['pemesan_idpemesan'] = $id;
+        $data2['admin_idadmin'] = 1;
+        $data2['status'] = 0;
+		$data3['kegiatan'] = $this->input->post("kegiatan");
+		//echo $data2['tanggal']." | ".$data2['slot']." | ".$data2['lapangan'];
+		$data3['pengguna'] = 'umum';
+		$data3['idlap'] = $data2['lapangan'];
+		$enam = array(13, 6, 5, 3);
+		$sembilan = array(4, 12, 2, 9, 10, 11);
+		$tgl = strtotime($data2['tanggal']);
+		$day = date('w', $tgl); //0 sunday 6 saturday
+		$beda = array(1, 4, 12, 5, 6, 13);
+		$event = array(4, 5, 6, 12, 13);
+		if($data3['kegiatan'] == 'turnamen'){
+			if(in_array($data2['lapangan'],$event)){
+				if($day == 0 || $day == 6){
+					$data3['hari'] = 'weekend';
+				}
+				else{
+					$data3['hari'] = 'normal';
+				}
+				if(strtotime($jam_mulai[0]->start) >= strtotime('18:00:00')){
+					if($data2['lapangan'] == 4 || $data2['lapangan'] == 12){
+						if(strtotime($jam_mulai[0]->start) >= strtotime('21:00:00')){
+							$data3['shift'] = 'malam';
+						}
+						else{
+							$data3['shift'] = 'sore';
+						}
+					}
+					else{
+						$data3['shift'] = 'malam';
+					}
+				}
+				else{
+					$data3['shift'] = 'pagi';
+				}
+			}
+			else{
+				$data3['hari'] = '';
+				$data3['shift'] = '';
+			}
+		}
+		else{
+			if(in_array($data2['lapangan'],$beda)){
+				if($day == 0 || $day == 6){
+					$data3['hari'] = 'weekend';
+				}
+				else{
+					$data3['hari'] = 'normal';
+				}
+			}
+			else{
+				$data3['hari'] = '';
+			}
+			if($data2['lapangan'] == 7 || $data2['lapangan'] == 8){
+				$data3['shift'] = '';
+			}
+			else{
+				$jam_mulai = $this->pemesanan_model->getStart($data2['slot']);
+				//echo $jam_mulai[0]->start;
+				if((strtotime($jam_mulai[0]->start) >= strtotime('18:00:00') and in_array($data2['lapangan'],$enam))
+					|| (strtotime($jam_mulai[0]->start) >= strtotime('19:00:00') and $data2['lapangan'] == 1)
+				|| (strtotime($jam_mulai[0]->start) >= strtotime('21:00:00') and in_array($data2['lapangan'],$sembilan))){
+					$data3['shift'] = 'malam';
+				}
+				else if((strtotime($jam_mulai[0]->start) >= strtotime('18:00:00') and strtotime($jam_mulai[0]->start) < strtotime('21:00:00')) and ($data2['lapangan'] == 4 || $data2['lapangan'] == 12)){
+					$data3['shift'] = 'sore';
+				}
+				else{
+					$data3['shift'] = 'pagi';
+				}
+			}
+			
+		}		
+		
+		$harga = $this->pemesanan_model->getHarga($data3);
+		//echo $harga[0]->nominal;
+		$data2['total'] = $harga[0]->nominal;
+		$databooking['total'] = $data2['total'];
+		$datapost['NOMINAL'] = $data2['total'];
+		$year = date("y");
+		$month = date("m");
+		$kode_unit = "105";
+		$angsuran = "01";
+		$digits = 6;
+		$rand = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
+		$data2['code'] = $year.$month.$kode_unit.$angsuran.$rand;
+		$datapost['KODE'] = $data2['code'];
+		$databooking['kode'] = $data2['code'];
+		$datapost['EXPIRED'] = '';
+		$databooking['expired'] = $datapost['EXPIRED'];
+		//echo $data2['code'];
+		$pesan = $this->pemesanan_model->create_data($data2, 'pemesanan');
+		
+		$simondits = $this->pemesanan_model->postSubmit($datapost);
+		$menu = "hf/menu/menu_pengelola.php";
+        $footer = "hf/footer/footer.php";
+		$subnav = "subnav.php";
+        $this->template->set_layout('back_end');
+        $this->template->title("fasor Sepuluh Nopember");
+        $this->template->set_partial("menu", $menu);
+        $this->template->set_partial("footer", $footer);
+		$this->template->build("s_kode.php", $databooking);
+    }
+	
+	function ubah_registrasi($kodebooking,$idsubmit)
+    {
+        
     }
 
 }

@@ -21,6 +21,11 @@ $lapangan = $this->db->query($sql)->result();
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
+			<li class="">
+                <a href="<?php echo base_url("index.php/pemesanan/s/sudahbayar") ?>">
+                    <i class="fa fa-dashboard"></i> <span>Pembayaran Lunas</span>
+                </a>
+            </li>
             <li class="treeview">
 				<a href="#">
                     <i class="fa fa-bar-chart-o"></i> 

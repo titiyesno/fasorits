@@ -95,7 +95,7 @@ class pemesanan_model extends CI_model {
 		);
 
 		$data_string = json_encode($data);
-		var_dump($data_string);
+		//var_dump($data_string);
 
 		$curl = curl_init('https://simondits.its.ac.id/api_amu');
 		//$curl = curl_init('http://10.199.13.60/simondits/index.php/api_amu');
@@ -148,8 +148,84 @@ class pemesanan_model extends CI_model {
         return $this->query($sql);
 	}
 	
+	function getlunas(){
+		$sql = 'select pemesanan.idpemesanan, pemesanan.tanggal_pesan as TANGGAL_PESAN,
+                  pemesanan.code as CODE_BOOKING, pemesanan.tanggal as TANGGAL_DIPESAN,
+                        pemesan.nama as NAMA, pemesan.noid as NOMOR_IDENTITAS, pemesan.email as EMAIL,
+                        pemesan.alamat as ALAMAT, pemesan.telp as TELEPON, lapangan.nama as LAPANGAN, slot.start as SLOT_MULAI,
+                        slot.end as SLOT_SELESAI
+                        from pemesanan
+                        left join pemesan on (pemesanan.pemesan_idpemesan=pemesan.idpemesan)
+                        left join lapangan on (pemesanan.lapangan = lapangan.id)
+                        left join slot on (pemesanan.slot = slot.slot)
+                where pemesanan.status = 2 or pemesanan.status = 1 group by pemesanan.code';
+        return $this->query($sql);
+	}
+	
 	function getcontact(){
         $sql = 'select contact.nama, contact.email, contact.pesan from contact';
         return $this->query($sql);
     }
+	
+	function readaplikan($booking_code) {
+        $sql = "select pemesan.noid as no_identitas, pemesan.nama as nama_pemesan, pemesan.telp as telp_pemesan, pemesan.email as email_pemesan,
+				pemesanan.idpemesanan, pemesanan.tanggal, pemesanan.code, pemesanan.total, pemesanan.status,
+				lapangan.nama as nama_lapangan, slot.nama as nama_slot, slot.start, slot.end from 
+				pemesan right join pemesanan on (pemesan.idpemesan=pemesanan.pemesan_idpemesan)
+				left join lapangan on (pemesanan.lapangan=lapangan.id)
+				left join slot on (pemesanan.slot=slot.slot)
+				where pemesanan.code='$booking_code'";
+        return $this->query($sql);
+    }
+	
+	function ubahstatussubmit_bycodebooking($codebooking,$status) {
+        $data = array('status' => $status);
+		$this->db->where('code',$codebooking);
+		$this->db->update('pemesanan',$data);
+    }
+	
+	function put_api($dataput){
+		$key =  md5('aku_keren'); //menghasilkan key : 697190fd04cd9394010280a8cbf5ed51
+
+		$data = array(
+				'kode'      => $dataput["KODE"],
+				'rekening_tujuan'   => $dataput["REKENING"],
+				'kode_bank'       => $dataput["KODE_BANK"],
+				'tanggal_bayar'      => $dataput["TANGGAL_BAYAR"],
+				'AMU-KEY'   =>  $key
+		);
+
+		$data_string = json_encode($data);
+
+		$curl = curl_init('https://simondits.its.ac.id/api_amu');
+		//$curl = curl_init('http://10.199.13.60/simondits/index.php/api_amu');
+
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+
+		curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+		'Content-Type: application/json',
+		'Content-Length: ' . strlen($data_string))
+		);
+
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);  // Make it so the data coming back is put into a string
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);  // Insert the data
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //untuk https
+
+		// Send the request
+		$result = curl_exec($curl);
+
+		// Free up the resources $curl is using
+		curl_close($curl);
+	}
+	
+	function update_bayar($databayar) {
+        $data = array('status' => $databayar["STATUS"],
+						'tanggal_bayar' => $databayar["TANGGAL_BAYAR"],
+						'via' => $databayar["VIA"],
+						'rekening_penerima' => $databayar["REKENING_PENERIMA"],
+						'bank_penerima' => $databayar["BANK_PENERIMA"]);
+		$this->db->where('code',$databayar["KODE"]);
+		$this->db->update('pemesanan',$data);
+    }
+	
 }
