@@ -422,7 +422,7 @@ class u extends MX_Controller {
     }
 	
 	function getslot($tgl,$id){
-		$htmlres = "<option value=\"\">Pilih slot</option>";
+		$htmlres = "<option value=\"\">Pilih jadwal</option>";
 		$slot = $this->pemesanan_model->slot($id);
 		$terisi = $this->pemesanan_model->slot_terisi($tgl,$id);
 		$reserved = array();

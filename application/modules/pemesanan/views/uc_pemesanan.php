@@ -82,7 +82,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Slot </label>
+                    <label>Jadwal </label>
                     <select class="form-control" name="slot" id="idslot">
 						
                     </select>
@@ -136,7 +136,7 @@
 							</select>
 						</div>
                     <div class="form-group">
-                        <label>Slot </label>
+                        <label>Jadwal </label>
                         <select class="form-control" name="slot" id="idslotaka">
 						
                         </select>
@@ -195,9 +195,9 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Slot </label>
+                        <label>Jadwal </label>
                         <select class="form-control" name="slot">
-                            <option value="">Pilih slot</option>
+                            <option value="">Pilih jadwal</option>
                         <?php foreach ($slot as $data3) { 
 							if(in_array($data3->slot, $terisi)){?>
                             <option value="<?php echo $data3->slot; ?>" disabled><?php echo $data3->nama . "  ( " . $data3->start . " - " . $data3->end . " )"; ?></option>

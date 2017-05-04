@@ -570,9 +570,28 @@ class s extends Super_Controller {
 		$this->template->build("s_kode.php", $databooking);
     }
 	
-	function ubah_registrasi($kodebooking,$idsubmit)
+	function ubah_registrasi($kodebooking)
     {
-        
+		$data["aplikan"] = $this->pemesanan_model->readaplikan2($kodebooking);
+		//echo $data["aplikan"][0]->nama_lapangan;
+        $menu = "hf/menu/menu_pengelola.php";
+        $footer = "hf/footer/footer.php";
+		$subnav = "subnav.php";
+        $this->template->set_layout('back_end');
+        $this->template->title("fasor Sepuluh Nopember");
+        $this->template->set_partial("menu", $menu);
+        $this->template->set_partial("footer", $footer);
+		$this->template->build("ubah_slot.php", $data);
     }
+	
+	function submit_ubah_registrasi(){
+		$data["tgl"] = $this->input->post('date');
+		$data["slot"] = $this->input->post('slot');
+		$data["kodebooking"] = $this->input->post('kodebooking');
+		
+		$ubah = $this->pemesanan_model->ubahjadwal($data);
+		
+		redirect("pemesanan/s/booking_details/".$data["kodebooking"],"refresh");
+	}
 
 }

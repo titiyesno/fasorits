@@ -178,6 +178,17 @@ class pemesanan_model extends CI_model {
         return $this->query($sql);
     }
 	
+	function readaplikan2($booking_code) {
+        $sql = "select pemesan.noid as no_identitas, pemesan.nama as nama_pemesan, pemesan.telp as telp_pemesan, pemesan.email as email_pemesan,
+				pemesanan.idpemesanan, pemesanan.tanggal, pemesanan.code, pemesanan.total, pemesanan.status, pemesanan.lapangan,
+				lapangan.nama as nama_lapangan, slot.nama as nama_slot, slot.start, slot.end from 
+				pemesan right join pemesanan on (pemesan.idpemesan=pemesanan.pemesan_idpemesan)
+				left join lapangan on (pemesanan.lapangan=lapangan.id)
+				left join slot on (pemesanan.slot=slot.slot)
+				where pemesanan.code='$booking_code'";
+        return $this->query($sql);
+    }
+	
 	function ubahstatussubmit_bycodebooking($codebooking,$status) {
         $data = array('status' => $status);
 		$this->db->where('code',$codebooking);
@@ -225,6 +236,13 @@ class pemesanan_model extends CI_model {
 						'rekening_penerima' => $databayar["REKENING_PENERIMA"],
 						'bank_penerima' => $databayar["BANK_PENERIMA"]);
 		$this->db->where('code',$databayar["KODE"]);
+		$this->db->update('pemesanan',$data);
+    }
+	
+	function ubahjadwal($datajadwal) {
+        $data = array('tanggal' => $datajadwal["tgl"],
+						'slot' => $datajadwal["slot"]);
+		$this->db->where('code',$datajadwal["kodebooking"]);
 		$this->db->update('pemesanan',$data);
     }
 	
