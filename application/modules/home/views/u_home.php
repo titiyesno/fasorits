@@ -53,7 +53,13 @@
         <div class="row widgethome">
             <hr/>
             <div class="col-md-6">
-                Promo
+				<h3>
+					<strong>Periksa Status Pembayaran  </strong></i>
+				</h3>
+				<form class="form-inline" method="POST" action="<?php echo base_url()?>index.php/home/u/cek_bayar">
+					<input class="form-control" type="text" placeholder="Kode Pembayaran" id="kode_bayar" name="kode_bayar" required/>
+					<button id="buttonsubmit" class="btn btn-two btn-lg" style="border-color:white; border-width:2px" type="submit">Cek</button>                        
+				</form>
             </div>
             <div class="col-md-3 hidden-sm hidden-xs">
                 <!-- SnapWidget -->

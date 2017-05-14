@@ -142,6 +142,74 @@ class Welcome extends CI_Controller {
         }
         echo $htmlres;
     }
+	
+	public function cek_bayar(){
+		$kode_bayar = $this->input->post('kode_bayar');
+		$menu = "hf/menu/menu_umum.php";
+        $footer = "hf/footer/footer_fe.php";
+//        print_r ($data['ksg']);
+		$url = "https://simondits.its.ac.id/api_amu?id_unit=103&kode=".$kode_bayar."&AMU-KEY=697190fd04cd9394010280a8cbf5ed51";
+		//  Initiate curl
+		$ch = curl_init();
+		// Disable SSL verification
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		// Will return the response, if false it print the response
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		// Set the url
+		curl_setopt($ch, CURLOPT_URL,$url);
+		// Execute
+		$result=curl_exec($ch);
+		// Closing
+		curl_close($ch);
+		$decode = json_decode($result,true);
+		if($decode){
+			$data["flag"] = 1;
+			$data["kode_bayar"] = $kode_bayar;
+			$data["nama"] = $decode[0]["BILL_NAMA"];
+			$data["total"] = $decode[0]["BILL_AMOUNT"];
+			$data["batas"] = $decode[0]["EXPIRED_DATE"];
+				if($decode[0]["BILL_FLAG"] == 1){
+				$data["status"] = "LUNAS";
+				$status = $this->pembayaran_model->status($decode[0]["BILL_DATA_ID"]);
+				if($status){
+					$totalbiaya = $status[0]->BAYAR*sqrt($status[0]->COUNTER);
+					if($status[0]->UANG_MUKA == 1){
+						$nominal = $decode[0]["BILL_AMOUNT"]*2;
+					}
+					for($i=0; $i<sqrt($status[0]->COUNTER); $i++){
+						$data3["CODE_BOOKING"]= $status[0]->CODE_BOOKING;
+						$data["NOMINAL_ANGSURAN"]=$nominal/sqrt($status[0]->COUNTER);
+						$data["ID_SUBMIT"] = $status[0]->ID_SUBMIT;
+						$this->pembayaran_model->pay($data);
+						$status[0]->ID_SUBMIT+=1;
+					}
+					if($totalbiaya==$nominal)
+					{
+						$data3["ID_PENGELOLA"] = "";
+						$data3["FLAG_SUBMIT"]= 3;
+						$data3["FLAG"] = 1;
+						$this->pembayaran_model->update_submit_bycodebooking($data3);
+					}
+				}
+				}
+				else if($decode[0]["BILL_FLAG"] == 2){
+					$data["status"] = "LUNAS";
+				}
+				else if($decode[0]["BILL_FLAG"] == 0){
+					$data["status"] = "BELUM LUNAS";
+				}
+		}
+		else{
+			$data["flag"] = 0;
+		}
+		
+        $this->template->title("Sistem Reservasi Online | Wisma ITS");
+        $this->template->set_layout('frontend');
+        $this->template->set_partial("header", $header);
+        $this->template->set_partial("menu", $menu);
+        $this->template->set_partial("footer", $footer);
+		$this->template->build("status_bayar.php",$data);
+	}
 
 }
 
