@@ -123,7 +123,7 @@ $lapangan = $this->db->query($sql)->result();
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="<?php echo base_url("index.php/kategori/s") ?>"><i class="fa fa-angle-double-right"></i> Kategori Berita</a></li>
-                    <li><a href="<?php echo base_url("index.php/kategori/s/sewa") ?>"><i class="fa fa-angle-double-right"></i> Kategori Item Sewa</a></li>
+                    <!--<li><a href="<?php echo base_url("index.php/kategori/s/sewa") ?>"><i class="fa fa-angle-double-right"></i> Kategori Item Sewa</a></li>-->
                 </ul>
             </li>
         </ul>
