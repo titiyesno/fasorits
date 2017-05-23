@@ -593,5 +593,9 @@ class s extends Super_Controller {
 		
 		redirect("pemesanan/s/booking_details/".$data["kodebooking"],"refresh");
 	}
+	
+	function printkui(){
+		
+	}
 
 }
