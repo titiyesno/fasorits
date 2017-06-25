@@ -595,7 +595,17 @@ class s extends Super_Controller {
 	}
 	
 	function printkui(){
-		
+		$data = array(
+        "dataku" => array(
+            "nama" => "Petani Kode",
+            "url" => "http://petanikode.com"
+			)
+		);
+		$this->load->library('pdf');
+		$this->pdf->set_paper('A4', 'landscape');
+		$this->pdf->load_view('template',$data);
+		$this->pdf->render();
+		$this->pdf->stream("tes.pdf",array("Attachment"=>0));
 	}
 
 }

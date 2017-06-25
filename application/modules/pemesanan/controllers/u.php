@@ -212,16 +212,16 @@ class u extends MX_Controller {
 		//echo $datapost['EXPIRED'];
 		$databooking['expired'] = $datapost['EXPIRED'];
 		//echo $data2['code'];
-		$pesan = $this->pemesanan_model->create_data($data2, 'pemesanan');
+		//$pesan = $this->pemesanan_model->create_data($data2, 'pemesanan');
 		
 		$simondits = $this->pemesanan_model->postSubmit($datapost);
-		$menu = "hf/menu/menu_umum.php";
+		/*$menu = "hf/menu/menu_umum.php";
         $footer = "hf/footer/footer.php";
         $this->template->set_layout('fe');
         $this->template->title("fasor Sepuluh Nopember");
         $this->template->set_partial("menu", $menu);
         $this->template->set_partial("footer", $footer);
-		$this->template->build("u_kode.php", $databooking);
+		$this->template->build("u_kode.php", $databooking);*/
     }
 	
 	function akademik() {
