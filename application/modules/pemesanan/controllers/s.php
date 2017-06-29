@@ -594,13 +594,8 @@ class s extends Super_Controller {
 		redirect("pemesanan/s/booking_details/".$data["kodebooking"],"refresh");
 	}
 	
-	function printkui(){
-		$data = array(
-        "dataku" => array(
-            "nama" => "Petani Kode",
-            "url" => "http://petanikode.com"
-			)
-		);
+	function printkui($codebooking){
+		$data["aplikan"] = $this->pemesanan_model->readaplikan($codebooking);
 		$this->load->library('pdf');
 		$this->pdf->set_paper('A4', 'landscape');
 		$this->pdf->load_view('template',$data);

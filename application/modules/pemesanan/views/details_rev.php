@@ -249,7 +249,7 @@
 							</div>
 							<div class="row form-group">
 								<div class="col-md-12">
-									<a href="<?php echo base_url() ?>index.php/pemesanan/s/printkui" class="btn btn-info" style="margin-left: 900px" role="button">Cetak Kuitansi</a>
+									<a href="<?php echo base_url() ?>index.php/pemesanan/s/printkui/<?php echo $aplikan[0]->code ?>" class="btn btn-info" style="margin-left: 900px" role="button">Cetak Kuitansi</a>
 								</div>
 							</div>
 							
